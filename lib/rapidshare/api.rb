@@ -81,8 +81,11 @@ module Rapidshare
       unless [:none, :csv, :hash].include?(parser)
         raise Rapidshare::API::Error.new("Invalid parser for request method: #{parser}")
       end
-  
-      response = self.get(URL % [service_name, params.to_query]).body
+
+      query_string = params.to_query
+      query_string.gsub! '%2C', ',' if service_name == :checkfiles
+
+      response = self.get(URL % [service_name, query_string]).body
       
       if response.start_with?(ERROR_PREFIX)
         case error = response.sub(ERROR_PREFIX, "").split('.').first
@@ -162,13 +165,13 @@ module Rapidshare
     # * *:server_id* - used to construct download url
     # * *:md5* 
     #
-    def checkfiles(*urls)
+    def self.checkfiles(*urls)
       raise Rapidshare::API::Error if urls.empty?
       
       files, filenames = urls.flatten.map { |url| fileid_and_filename(url) }.transpose
-  
+
       response = request(:checkfiles, :files => files.join(","), :filenames => filenames.join(","))
-      
+
       response.strip.split(/\s*\n\s*/).map do |r|
         data = r.split(",")
         {
@@ -176,11 +179,17 @@ module Rapidshare
           :file_name => data[1],
           :file_size => data[2],
           :server_id => data[3],
-          :file_status => self.class.decode_file_status(data[4].to_i),
+          :file_status => decode_file_status(data[4].to_i),
           :short_host => data[5],
           :md5 => data[6]
         }
       end
+    end
+
+    # Provides instance interface to class method +checkfiles+.
+    #
+    def checkfiles(urls)
+      self.class.checkfiles(urls)
     end
   
     # Downloads file.
@@ -229,7 +238,7 @@ module Rapidshare
     # Example:
     #   https://rapidshare.com/files/829628035/HornyRhinos.jpg -> [ '829628035', 'HornyRhinos.jpg' ] 
     #
-    def fileid_and_filename(url)
+    def self.fileid_and_filename(url)
       url.split('/').slice(-2,2) || ['', '']
     end
   
