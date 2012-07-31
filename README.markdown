@@ -171,7 +171,7 @@ rs.getrapidtranslogs == rs.get_rapid_trans_logs
 
 PS: This is used for aliasing dedicated methods as well: `rs.get_account_details`
 invokes `rs.getaccountdetails`. In this case the corresponding dedicated
-method is called instead of low-level `request` method, because we check for
+method is called instead of the low-level `request` method, because we check for
 existense of dedicated method first.
 
 ## Examples ##
