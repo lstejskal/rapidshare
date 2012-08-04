@@ -57,6 +57,12 @@ class ApiTest < Test::Unit::TestCase
       end
     end
 
+    should "allow free users to skip login" do
+      assert_nothing_raised(Rapidshare::API::Error::LoginFailed) do
+        Rapidshare::API.new(:free_user => true)
+      end
+    end
+
   end
 
   context "request method" do
@@ -136,6 +142,12 @@ class ApiTest < Test::Unit::TestCase
         :body => read_fixture('checkfiles_single.txt')
       )
 
+      # for free users, without cookie
+      FakeWeb.register_uri(:get,
+        "https://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=checkfiles&files=829628035&filenames=HornyRhinos.jpg&cookie=",
+        :body => read_fixture('checkfiles_single.txt')
+      )
+
       FakeWeb.register_uri(:get,
         "https://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=checkfiles&cookie=#{@cookie}&filenames=HornyRhinos.jpg%2CHappyHippos.jpg%2CElegantElephants.jpg&files=829628035%2C428232373%2C766059293",
         :body => read_fixture('checkfiles_multi.txt')
@@ -160,6 +172,17 @@ class ApiTest < Test::Unit::TestCase
     
     should "return information about file" do
       file_info = @rs.checkfiles(@files.first)
+      assert_instance_of Array, file_info 
+      assert_equal 1, file_info.size
+      assert_equal :ok, file_info.first[:file_status]
+      assert_equal file_info.first,
+        {:file_id=>"829628035", :file_name=>"HornyRhinos.jpg",
+        :file_size=>"272288", :server_id=>"370", :file_status=>:ok,
+        :short_host=>"l33", :md5=>"8700146036606454677EFAFB4A2AC52E"}
+    end
+
+    should "be available for free users too" do
+      file_info = Rapidshare::API.new(:free_user => true).checkfiles(@files.first)
       assert_instance_of Array, file_info 
       assert_equal 1, file_info.size
       assert_equal :ok, file_info.first[:file_status]

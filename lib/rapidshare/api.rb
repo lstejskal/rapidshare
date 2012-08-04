@@ -32,12 +32,18 @@ module Rapidshare
     # * *login* - premium account login
     # * *password* - premium account password
     # * *cookie* - cookie can be provided instead of login and password
+    # * *free_user* (boolean) - if user identifies himself as free user by setting this to *true*, skip login
     #
     # Instead of params hash, you can pass only cookie as a string
+    #
+    # PS: *free_user* option is a beta feature, to be properly implemented
     #
     def initialize(params)
       # if there's "just one param", it's a cookie
       params = { :cookie => params } if params.is_a? String
+
+      # skip login for free users
+      return nil if params[:free_user] == true
 
       if params[:cookie]
         @cookie = params[:cookie]
@@ -181,14 +187,6 @@ module Rapidshare
           :md5 => data[6]
         }
       end
-    end
-
-    # Class method +checkfiles+. enables to call method without login
-    # PS: this should be sorted out systematically - all methods should
-    # be called without login.
-    #
-    def self.checkfiles(urls)
-      puts "TODO"
     end
   
     # Downloads file.
