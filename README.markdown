@@ -172,7 +172,7 @@ rs.getrapidtranslogs == rs.get_rapid_trans_logs
 PS: This is used for aliasing dedicated methods as well: `rs.get_account_details`
 invokes `rs.getaccountdetails`. In this case the corresponding dedicated
 method is called instead of the low-level `request` method, because we check for
-existense of dedicated method first.
+existence of dedicated method first.
 
 ## Examples
 
@@ -182,4 +182,8 @@ download clients.
 
 ## License
 
-Copyright (c) 2009-2011 Tomasz Mazur, Lukas Stejskal
+See [LICENSE](./rapidshare/tree/master/LICENSE)
+
+## Authors
+
+Copyright (c) 2009-2012 Tomasz Mazur, Lukas Stejskal
