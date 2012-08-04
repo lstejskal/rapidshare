@@ -1,19 +1,19 @@
-# Rapidshare #
+# Rapidshare
 
-## Description ##
+## Description
 
 This gem provides a wrapper for RapidShare API.
 
 Full documentation of RapidShare API is available at
 [http://images.rapidshare.com/apidoc.txt](http://images.rapidshare.com/apidoc.txt)
 
-## Installation ##
+## Installation
 
 ```ruby
 gem install rapidshare
 ```
 
-## Usage ##
+## Usage
 
 This example shows a simple script which downloads files from Rapidshare:
 
@@ -38,7 +38,7 @@ files_to_download.each do |file|
 end
 ```
 
-## Login ##
+## Login
 
 Rapidshare gem is meant to be used mostly by premium users. In order to call Rapidshare
 services as premium user, you need to log in first, using your login and password.
@@ -63,15 +63,15 @@ password every time or have it stored in some config file on your hard drive.
 Rapidshare::API.new(:login => 'my_login', :password => 'my_password').cookie
 ```
 
-## Rapidshare Services ##
+## Rapidshare Services
 
-### Get Account Details ###
+### Get Account Details
 
 ```ruby
 rs.get_account_details
 ```
 
-### Check Files ###
+### Check Files
 
 ```ruby
 rs.check_files(
@@ -81,7 +81,7 @@ rs.check_files(
 )
 ```
 
-### Download File ###
+### Download File
 
 ```ruby
 rs.download('https://rapidshare.com/files/829628035/HornyRhinos.jpg')
@@ -94,7 +94,7 @@ invalid, `API` instance is returned with `downloaded` attribute set to (wait for
 it) *false*. (`downloaded` attribute is also accessible by `downloaded?`
 method.)
 
-## Service Calls ##
+## Service Calls
 
 All calls to Rapidshare services are done internally by `API#request` method:
 
@@ -113,7 +113,7 @@ Rapidshare::API.request(:getaccountdetails, :login => 'my_login', :password => '
 Use this method to call Rapidshare services which don't have dedicated methods
 available.
 
-### Parser Parameter ###
+### Parser Parameter
 
 `API#request` method has an optional parameter *:parser* which specifies how to 
 parse the response from Rapidshare. (Rapidshare doesn't unified API, there are
@@ -131,7 +131,7 @@ rs.request(:getaccountdetails, :parser => :hash)
 
 PS: cookie is automatically added if you call request method on a `API` instance.
 
-### Method Missing ###
+### Method Missing
 
 Let's say you want to call service for which rapidshare gem doesn't have
 dedicated method yet, for example: *getrapidtranslogs* . While you can
@@ -174,12 +174,12 @@ invokes `rs.getaccountdetails`. In this case the corresponding dedicated
 method is called instead of the low-level `request` method, because we check for
 existense of dedicated method first.
 
-## Examples ##
+## Examples
 
 In [examples directory](./rapidshare/tree/master/examples/) you will other examples of using
 Rapidshare gem. Among other things there are scripts which can serve as simple
 download clients.
 
-## License ##
+## License
 
 Copyright (c) 2009-2011 Tomasz Mazur, Lukas Stejskal
