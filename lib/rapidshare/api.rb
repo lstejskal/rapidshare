@@ -162,7 +162,7 @@ module Rapidshare
     # * *:server_id* - used to construct download url
     # * *:md5* 
     #
-    def self.checkfiles(*urls)
+    def checkfiles(*urls)
       raise Rapidshare::API::Error if urls.empty?
       
       files, filenames = urls.flatten.map { |url| fileid_and_filename(url) }.transpose
@@ -176,17 +176,19 @@ module Rapidshare
           :file_name => data[1],
           :file_size => data[2],
           :server_id => data[3],
-          :file_status => decode_file_status(data[4].to_i),
+          :file_status => self.class.decode_file_status(data[4].to_i),
           :short_host => data[5],
           :md5 => data[6]
         }
       end
     end
 
-    # Provides instance interface to class method +checkfiles+.
+    # Class method +checkfiles+. enables to call method without login
+    # PS: this should be sorted out systematically - all methods should
+    # be called without login.
     #
-    def checkfiles(urls)
-      self.class.checkfiles(urls)
+    def self.checkfiles(urls)
+      puts "TODO"
     end
   
     # Downloads file.
@@ -220,6 +222,8 @@ module Rapidshare
       http.get url.request_uri
     end
 
+    # TODO enable to call as both class and instance methods
+
     # Convert file status code (returned by checkfiles method) to +:ok+ or +:error+ symbol.
     #
     def self.decode_file_status(status_code)
@@ -240,7 +244,7 @@ module Rapidshare
     # Example:
     #   https://rapidshare.com/files/829628035/HornyRhinos.jpg -> [ '829628035', 'HornyRhinos.jpg' ] 
     #
-    def self.fileid_and_filename(url)
+    def fileid_and_filename(url)
       url.split('/').slice(-2,2) || ['', '']
     end
   
