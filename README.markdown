@@ -182,7 +182,7 @@ download clients.
 
 ## License
 
-See [LICENSE](./rapidshare/tree/master/LICENSE)
+See [LICENSE](./rapidshare/blob/master/LICENSE)
 
 ## Authors
 
