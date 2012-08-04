@@ -82,10 +82,7 @@ module Rapidshare
         raise Rapidshare::API::Error.new("Invalid parser for request method: #{parser}")
       end
 
-      query_string = params.to_query
-      query_string.gsub! '%2C', ',' if service_name == :checkfiles
-
-      response = self.get(URL % [service_name, query_string]).body
+      response = self.get(URL % [service_name, params.to_query]).body
       
       if response.start_with?(ERROR_PREFIX)
         case error = response.sub(ERROR_PREFIX, "").split('.').first
@@ -208,6 +205,10 @@ module Rapidshare
   
     # Provides interface for GET requests
     # 
+    # PS: previously url.request_uri was escaped by URI::escape method,
+    # but with params for url filtered by to_query method it's not necessary 
+    # anymore and can actually cause bugs (already did in checkfiles method)
+    #
     def self.get(url)
       url = URI.parse(url)
       http = Net::HTTP.new(url.host, url.port)
@@ -215,9 +216,10 @@ module Rapidshare
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
-      http.get URI::escape(url.request_uri)
+
+      http.get url.request_uri
     end
-  
+
     # Convert file status code (returned by checkfiles method) to +:ok+ or +:error+ symbol.
     #
     def self.decode_file_status(status_code)
