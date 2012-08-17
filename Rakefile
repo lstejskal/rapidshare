@@ -56,3 +56,10 @@ Rcov::RcovTask.new do |t|
   # exclude loaded libraries from code analysis
   t.rcov_opts << '--exclude /gems/'
 end
+
+# takes precedence over installed rapidshare gems
+desc "Run console (== irb) with current gem environment"
+task :console do
+    exec "irb -Ilib -rrapidshare"
+end
+task :irb => :console
