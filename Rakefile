@@ -49,14 +49,6 @@ namespace :doc do
   end
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |t|
-  t.libs << "test"
-  t.pattern = 'test/unit/*_test.rb'
-  # exclude loaded libraries from code analysis
-  t.rcov_opts << '--exclude /gems/'
-end
-
 # takes precedence over installed rapidshare gems
 desc "Run console (== irb) with current gem environment"
 task :console do

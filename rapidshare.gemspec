@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test}/*`.split("\n")
-  # s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   s.add_dependency('activesupport', '~> 3.2.8')
@@ -24,10 +23,10 @@ Gem::Specification.new do |s|
   s.add_dependency('curb', '~> 0.8.1')
   s.add_dependency('progressbar', '~> 0.11.0')
   
-  # development dependencies 
+  # development dependencies
   s.add_development_dependency('yard', '~> 0.7')
   s.add_development_dependency('rdiscount', '~> 1.6')
-  s.add_development_dependency('rcov', '~> 0.9')
+  s.add_development_dependency('simplecov', '~> 0.6.4')
 
   # test dependencies 
   s.add_development_dependency('shoulda', '~> 2.11')
