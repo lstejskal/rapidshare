@@ -1,9 +1,14 @@
 # encoding: utf-8
 
 module Rapidshare
-  VERSION = "0.5.2"
+  VERSION = "0.5.3"
 
   # CHANGELOG:
+  #
+  # 0.5.3
+  # refactored helper method into Utils module
+  # added basic support for free users
+  # fixed escaping urls in rapidshare requests
   #
   # 0.5.2
   # update gemspec (remove httparty, update turn)
