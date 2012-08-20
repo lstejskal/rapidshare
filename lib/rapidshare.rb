@@ -8,6 +8,7 @@ require 'progressbar'
 require 'active_support/core_ext/object/to_query'
 require 'active_support/core_ext/hash/keys'
 
+require "rapidshare/utils"
 require "rapidshare/api"
 require "rapidshare/download"
 require "rapidshare/version"
