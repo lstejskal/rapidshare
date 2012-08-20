@@ -95,6 +95,13 @@ class ApiTest < Test::Unit::TestCase
         :directstart=>"1", :servertime=>"1217244932", :curspace=>"103994340",
         :email=>"valid_account@email.com", :accountid=>"12345" }
     end
+
+    should "raise error on invalid parser parameter" do
+      assert_raise Rapidshare::API::Error do
+        @rs.request(:getrapidtranslogs, :parser => 'surprise_me')
+      end
+    end
+
   end
 
   context "method_missing" do
