@@ -56,11 +56,7 @@ module Rapidshare
         @cookie = response[:cookie]
       end
     end
-  
-    def self.debug(debug)
-      debug_output debug ? $stderr : false
-    end
-  
+    
     # TODO this class is getting long. keep general request-related and helper
     # method here and move specific method calls like :getaccountdetails to other
     # class (service)? 
